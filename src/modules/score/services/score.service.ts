@@ -29,8 +29,12 @@ export class ScoreService implements IScoreService {
     }
 
     const totalDebt = user.debts.reduce((acc, debt) => acc + debt.value, 0);
+    if (totalDebt === 0) {
+      return { score: 10000, date: new Date() };
+    }
+
     const averageDebt = totalDebt / user.debts.length;
-    const score = 10000 / (Math.sqrt(averageDebt) + 100);
+    const score = 10000 / Math.sqrt(averageDebt + 100);
 
     return { score, date: new Date() };
   }
