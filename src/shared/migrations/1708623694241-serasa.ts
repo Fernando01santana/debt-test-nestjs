@@ -18,8 +18,8 @@ export class Teste1708623694241 implements MigrationInterface {
             type: 'decimal',
           },
           {
-            name: 'data_birthday',
-            type: 'varchar',
+            name: 'data_expire',
+            type: 'date',
           },
           {
             name: 'document',

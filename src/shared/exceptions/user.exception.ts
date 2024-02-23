@@ -1,4 +1,4 @@
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 
 export class UserAlreadyExistsException extends ConflictException {
   constructor(message?: string) {
@@ -6,7 +6,13 @@ export class UserAlreadyExistsException extends ConflictException {
   }
 }
 
-export class UserTypeNotExistsException extends ConflictException {
+export class UserNotFoundInSystemException extends NotFoundException {
+  constructor(message?: string) {
+    super(message || 'Usuario nao encontrado.');
+  }
+}
+
+export class UserTypeNotExistsException extends NotFoundException {
   constructor(message?: string) {
     super(message || 'Nivel de acesso informado nao existe.');
   }
