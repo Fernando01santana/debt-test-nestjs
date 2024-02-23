@@ -11,7 +11,7 @@ export class Debt {
   value: number;
 
   @Column({ type: 'varchar' })
-  data_birthday: string;
+  data_expire: Date;
 
   @Column({ type: 'varchar' })
   document: string;
