@@ -41,9 +41,7 @@ EXPIRE_TOKEN=
 
 ## Documentation
 
-```bash
-[Doc](http://localhost:3000/api)
-```
+[Doc](http://localhost:3000/api) Routes and functions
 
 ## Installation
 
