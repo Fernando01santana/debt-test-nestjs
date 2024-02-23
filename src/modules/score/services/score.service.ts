@@ -1,12 +1,37 @@
+import { InjectRepository } from '@nestjs/typeorm';
+import { Debt } from 'src/modules/debts/entities/debt.entity';
+import { DebtRepository } from 'src/modules/debts/repositories/debts.repository';
+import { User } from 'src/modules/users/entities/user.entity';
+import { UserRepository } from 'src/modules/users/repositories/user.repository';
+import { UserNotFoundInSystemException } from 'src/shared/exceptions/user.exception';
 import { ScoreResponseDto } from '../dtos/score.dto';
 import { IScoreService } from '../interfaces/score.service.dto';
 
 export class ScoreService implements IScoreService {
-  findByCustomer(data: string): Promise<ScoreResponseDto> {
-    //validar se o usuario existe
-    //buscar todos os debitos desse usuario
-    //somar todas as dividas, e dividir pela quantidade de dividas existentes
-    //realizar calculo do score
-    //retornar objeto com o score e com a data de hoje
+  constructor(
+    @InjectRepository(Debt)
+    private readonly debitRepository: DebtRepository,
+    @InjectRepository(User)
+    private readonly userRepository: UserRepository,
+  ) {}
+  async findByCustomer(data: string): Promise<ScoreResponseDto> {
+    const user = await this.userRepository.findOne({
+      where: { document: data },
+      relations: ['debts'],
+    });
+
+    if (!user) {
+      throw new UserNotFoundInSystemException();
+    }
+
+    if (!user.debts || user.debts.length === 0) {
+      return { score: 1000, date: new Date() };
+    }
+
+    const totalDebt = user.debts.reduce((acc, debt) => acc + debt.value, 0);
+    const averageDebt = totalDebt / user.debts.length;
+    const score = 10000 / (Math.sqrt(averageDebt) + 100);
+
+    return { score, date: new Date() };
   }
 }

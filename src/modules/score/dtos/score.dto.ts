@@ -5,5 +5,5 @@ export class ScoreResponseDto {
   score: number;
 
   @IsString()
-  date: string;
+  date: Date;
 }
