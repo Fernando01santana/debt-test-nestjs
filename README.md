@@ -39,6 +39,12 @@ DB_DATABASE=
 EXPIRE_TOKEN=
 ```
 
+## Documentation
+
+```bash
+[Doc](http://localhost:3000/api)
+```
+
 ## Installation
 
 ```bash

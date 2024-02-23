@@ -1,9 +1,11 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateDebitRequesDto } from '../dtos/debits.dto';
 import { Debt } from '../entities/debt.entity';
 import { DebtsService } from '../services/debts.service';
 
 @Controller('debts')
+@ApiTags('Debts')
 export class DebtsController {
   constructor(private readonly debtsService: DebtsService) {}
   @Post()
