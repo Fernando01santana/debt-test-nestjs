@@ -28,7 +28,16 @@
 
 ## Quick start
 
-After start the project, create env file with all enviroments variables
+After start the project, create env file with all enviroments variables:
+
+```bash
+DB_HOST=
+DB_PORT=
+DB_USERNAME=
+DB_PASSWORD=
+DB_DATABASE=
+EXPIRE_TOKEN=
+```
 
 ## Installation
 
