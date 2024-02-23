@@ -18,7 +18,7 @@ export class AuthService implements IAuthService {
   ) {}
   async login(data: LoginRequest): Promise<LoginResponse> {
     const userExists = await this.userRepository.findOne({
-      where: { email: data.email },
+      where: { document: data.document },
     });
     if (!userExists) {
       throw new AuthCredentialsInvalid();
@@ -34,7 +34,7 @@ export class AuthService implements IAuthService {
     }
 
     const payload = {
-      email: data.email,
+      email: data.document,
       access_level: userExists.type,
     };
     const accessToken = this.jwtService.sign(payload);

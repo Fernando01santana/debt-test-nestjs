@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
+  LevelAcessEmailException,
   UserAlreadyExistsException,
   UserTypeNotExistsException,
 } from 'src/shared/exceptions/user.exception';
@@ -25,14 +26,17 @@ export class UserService implements IUserService {
     const existingUser = await this.usersRepository.findBy({
       document: data.document,
     });
-
     if (existingUser.length > 0) {
       throw new UserAlreadyExistsException();
     }
-
+    if (
+      !this.validateLevelAcessEmail(data.email) &&
+      data.acess_level === LevelAcess.ADMIN
+    ) {
+      throw new LevelAcessEmailException();
+    }
     const passwordEncoded = await this.criptoPass.hashPassword(data.password);
     const formattedDate = this.stringTodate.convertDate(data.data_birthday);
-
     const typeExists = this.validateEnumValue.search(
       data.acess_level,
       LevelAcess,
@@ -55,5 +59,11 @@ export class UserService implements IUserService {
 
   async find(): Promise<User[]> {
     return this.usersRepository.find();
+  }
+
+  validateLevelAcessEmail(data: string): boolean {
+    const regexValidDomain = /^[^\s@]+@br\.experian\.com$/i;
+    const emailValid = regexValidDomain.test(data);
+    return emailValid;
   }
 }
