@@ -1,6 +1,12 @@
 // src/entities/Debt.ts
 import { User } from 'src/modules/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('debt')
 export class Debt {
@@ -23,5 +29,6 @@ export class Debt {
   updated_at: Date;
 
   @ManyToOne(() => User, (user) => user.debts)
+  @JoinColumn({ name: 'document', referencedColumnName: 'document' })
   user: User;
 }

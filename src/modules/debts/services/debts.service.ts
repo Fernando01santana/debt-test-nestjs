@@ -3,10 +3,7 @@ import { User } from 'src/modules/users/entities/user.entity';
 import { UserRepository } from 'src/modules/users/repositories/user.repository';
 import { UserNotFoundInSystemException } from 'src/shared/exceptions/user.exception';
 import { StringToDate } from 'src/shared/utils/stringToDate';
-import {
-  CreateDebitRequesDto,
-  FindDebitByDocumentDto,
-} from '../dtos/debits.dto';
+import { CreateDebitRequesDto } from '../dtos/debits.dto';
 import { Debt } from '../entities/debt.entity';
 import { IDebtsService } from '../interfaces/debts.interface';
 import { DebtRepository } from '../repositories/debts.repository';
@@ -33,12 +30,13 @@ export class DebtsService implements IDebtsService {
     (createDebt.data_expire = dateInCorretFormat),
       (createDebt.document = data.document),
       (createDebt.user = userExists);
+    createDebt.value = data.value;
 
     await this.debitRepository.save(createDebt);
     return;
   }
 
-  async list(data: FindDebitByDocumentDto): Promise<Debt[]> {
-    return this.debitRepository.findBy({ document: data.document });
+  async list(data: string): Promise<Debt[]> {
+    return this.debitRepository.findBy({ document: data });
   }
 }

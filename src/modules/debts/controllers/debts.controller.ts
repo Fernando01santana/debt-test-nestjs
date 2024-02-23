@@ -1,8 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import {
-  CreateDebitRequesDto,
-  FindDebitByDocumentDto,
-} from '../dtos/debits.dto';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CreateDebitRequesDto } from '../dtos/debits.dto';
 import { Debt } from '../entities/debt.entity';
 import { DebtsService } from '../services/debts.service';
 
@@ -13,8 +10,8 @@ export class DebtsController {
   async insertDebt(@Body() data: CreateDebitRequesDto): Promise<void> {
     return await this.debtsService.create(data);
   }
-  @Get()
-  async find(@Body() data: FindDebitByDocumentDto): Promise<Debt[]> {
+  @Get(':document')
+  async find(@Param('document') data: string): Promise<Debt[]> {
     return await this.debtsService.list(data);
   }
 }

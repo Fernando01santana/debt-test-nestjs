@@ -1,4 +1,4 @@
-import { IsDecimal, IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateDebitRequesDto {
   @IsString()
@@ -7,7 +7,7 @@ export class CreateDebitRequesDto {
   @IsString()
   document: string;
 
-  @IsDecimal()
+  @IsNumber()
   value: number;
 }
 
