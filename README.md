@@ -26,6 +26,21 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+```bash
+
+  O framework escolhido juntamente com a tecnologia base foi o NestJs executado em cima do NodeJs, uma incrivel engine
+  que interpreta Javascript do lado servidor.
+
+  A arquiteutra escolhida foi modularizada, softwares tendem a crescer e se tornarem mais complexos e inteligentes,
+  uma arquitetura modularizada auxilia na separacao de responsabilidades para que no futuro possa se transformar em
+  uma arquitetura de microservice.
+
+  O banco utilizado foi o Postgres, pela sua robustes e estrutura solida, e tambem por ter informacoes que tem sua
+  estrutura de dados definidas, caso contrario, fosse algo mais flexivel, optaria por mongoDB por oferecer mais
+  flexibilidade.
+
+```
+
 ## Quick start
 
 After start the project, create env file with all enviroments variables:
