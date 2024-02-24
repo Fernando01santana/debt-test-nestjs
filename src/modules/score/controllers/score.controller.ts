@@ -1,5 +1,5 @@
-import { Controller, Param, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Param } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ScoreResponseDto } from '../dtos/score.dto';
 import { ScoreService } from '../services/score.service';
 
@@ -8,7 +8,11 @@ import { ScoreService } from '../services/score.service';
 export class ScoreController {
   constructor(private readonly scoreService: ScoreService) {}
 
-  @Post(':document')
+  @Get(':document')
+  @ApiOperation({
+    description: 'Busca o score do cliente baseado no document enviado.',
+  })
+  @ApiBody({ type: 'stirng' })
   async findScoreByCustomer(
     @Param('document') data: string,
   ): Promise<ScoreResponseDto> {
