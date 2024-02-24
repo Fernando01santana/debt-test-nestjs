@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgrespw
-      POSTGRES_DB: serasa
+      POSTGRES_DB: finance
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
