@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
+import RedisOtherService from 'src/config/redis/redis.service';
 import {
   LevelAcessEmailException,
   UserAlreadyExistsException,
@@ -21,6 +23,7 @@ export class UserService implements IUserService {
     private readonly validateEnumValue: ItemExistsInEnum,
     private readonly criptoPass: EncriptPassword,
     private readonly stringTodate: StringToDate,
+    private readonly redisService: RedisOtherService,
   ) {}
   async create(data: CreateAndListUserRequest): Promise<User> {
     const existingUser = await this.usersRepository.findBy({
@@ -54,11 +57,15 @@ export class UserService implements IUserService {
     newUser.email = data.email;
     newUser.type = typeExists;
 
-    return this.usersRepository.save(newUser);
+    const userCread = await this.usersRepository.save(newUser);
+    await this.redisService.createKey(userCread);
+    return userCread;
   }
 
   async find(): Promise<User[]> {
-    return this.usersRepository.find();
+    const dataCache = await this.redisService.getAllCustomers();
+    const parsedData = JSON.parse(dataCache.join(''));
+    return parsedData;
   }
 
   validateLevelAcessEmail(data: string): boolean {

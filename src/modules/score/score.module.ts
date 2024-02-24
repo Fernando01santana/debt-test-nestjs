@@ -10,6 +10,6 @@ import { ScoreService } from './services/score.service';
   imports: [UtilsModule, TypeOrmModule.forFeature([User, Debt])],
   controllers: [ScoreController],
   providers: [ScoreService],
-  exports: [ScodeModule],
+  exports: [ScoreModule],
 })
-export class ScodeModule {}
+export class ScoreModule {}

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateAndListUserRequest } from '../dtos/user.dto';
 import { User } from '../entities/user.entity';
 import { UserService } from '../services/users.service';
@@ -19,6 +19,7 @@ export class UsersController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @ApiOperation({
     description: 'Retorna todos os usuarios da base de dados.',
   })
