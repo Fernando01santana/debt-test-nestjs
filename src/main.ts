@@ -11,7 +11,6 @@ async function bootstrap() {
       'Application created with NestJs Framework and another technologies',
     )
     .setVersion('1.0')
-    .addTag('nestjs')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
