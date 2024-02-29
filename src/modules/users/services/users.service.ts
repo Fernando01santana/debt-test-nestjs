@@ -49,13 +49,15 @@ export class UserService implements IUserService {
       throw new UserTypeNotExistsException();
     }
 
-    const newUser = new User();
-    newUser.document = data.document;
-    newUser.name = data.name;
-    newUser.data_birthday = formattedDate;
-    newUser.password = passwordEncoded;
-    newUser.email = data.email;
-    newUser.type = typeExists;
+    //? MODIFICACAO FEITA: ADICAO DE UM CONSTRUTOR NA CLASSE DEBT RESULTANDO ASSIM NA POSSIBILIDADE DE PASSAR OBJETO NA INSTANCIA DA CLASSE
+    const newUser = new User({
+      document: data.document,
+      name: data.name,
+      email: data.email,
+      password: passwordEncoded,
+      type: typeExists,
+      data_birthday: formattedDate,
+    });
 
     const userCread = await this.usersRepository.save(newUser);
     await this.redisService.createKey(userCread);
