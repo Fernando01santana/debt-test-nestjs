@@ -67,8 +67,6 @@ export class UserService implements IUserService {
 
   async find(): Promise<User[]> {
     const dataCache = await this.redisService.getAllCustomers();
-    console.log(dataCache);
-
     const parsedData = JSON.parse(dataCache.join(''));
     return parsedData;
   }
