@@ -10,32 +10,41 @@ import { IScoreService } from '../interfaces/score.service.dto';
 export class ScoreService implements IScoreService {
   constructor(
     @InjectRepository(Debt)
-    private readonly debitRepository: DebtRepository,
+    private readonly debtRepository: DebtRepository,
     @InjectRepository(User)
     private readonly userRepository: UserRepository,
   ) {}
-  async findByCustomer(data: string): Promise<ScoreResponseDto> {
-    const user = await this.userRepository.findOne({
-      where: { document: data },
+
+  private calculateScore(totalDebt: number, debtsCount: number): number {
+    if (totalDebt === 0) {
+      return 10000;
+    }
+
+    const averageDebt = totalDebt / debtsCount;
+    return 10000 / Math.sqrt(averageDebt + 100);
+  }
+
+  private async getUserWithDebts(document: string): Promise<User> {
+    return this.userRepository.findOne({
+      where: { document },
       relations: ['debts'],
     });
+  }
+
+  async findByCustomer(data: string): Promise<ScoreResponseDto> {
+    const user = await this.getUserWithDebts(data);
 
     if (!user) {
       throw new UserNotFoundInSystemException();
     }
 
-    if (!user.debts || user.debts.length === 0) {
-      return { score: 1000, date: new Date() };
-    }
+    const debtsCount = user.debts?.length || 0;
+    const totalDebt =
+      debtsCount > 0
+        ? user.debts.reduce((acc, debt) => acc + debt.value, 0)
+        : 0;
 
-    //TODO: REMOVER TRECHO POIS NAO HA NECESSIDADE DE VALIDAR SE O DEBITO FOR 0 POIS ENTENDE-SE QUE SENDO 0 O DEBITO NAO EXISTE
-    const totalDebt = user.debts.reduce((acc, debt) => acc + debt.value, 0);
-    if (totalDebt === 0) {
-      return { score: 10000, date: new Date() };
-    }
-
-    const averageDebt = totalDebt / user.debts.length;
-    const score = 10000 / Math.sqrt(averageDebt + 100);
+    const score = this.calculateScore(totalDebt, debtsCount);
 
     return { score, date: new Date() };
   }
