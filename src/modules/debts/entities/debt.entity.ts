@@ -31,4 +31,8 @@ export class Debt {
   @ManyToOne(() => User, (user) => user.debts)
   @JoinColumn({ name: 'document', referencedColumnName: 'document' })
   user: User;
+
+  constructor(debtData: Partial<Debt>) {
+    Object.assign(this, debtData);
+  }
 }
