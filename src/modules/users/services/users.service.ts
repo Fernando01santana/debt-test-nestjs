@@ -38,6 +38,7 @@ export class UserService implements IUserService {
     ) {
       throw new LevelAcessEmailException();
     }
+
     const passwordEncoded = await this.criptoPass.hashPassword(data.password);
     const formattedDate = this.stringTodate.convertDate(data.data_birthday);
     const typeExists = this.validateEnumValue.search(
@@ -66,6 +67,8 @@ export class UserService implements IUserService {
 
   async find(): Promise<User[]> {
     const dataCache = await this.redisService.getAllCustomers();
+    console.log(dataCache);
+
     const parsedData = JSON.parse(dataCache.join(''));
     return parsedData;
   }
