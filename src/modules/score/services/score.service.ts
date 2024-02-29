@@ -28,6 +28,7 @@ export class ScoreService implements IScoreService {
       return { score: 1000, date: new Date() };
     }
 
+    //TODO: REMOVER TRECHO POIS NAO HA NECESSIDADE DE VALIDAR SE O DEBITO FOR 0 POIS ENTENDE-SE QUE SENDO 0 O DEBITO NAO EXISTE
     const totalDebt = user.debts.reduce((acc, debt) => acc + debt.value, 0);
     if (totalDebt === 0) {
       return { score: 10000, date: new Date() };
