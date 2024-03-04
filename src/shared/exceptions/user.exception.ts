@@ -27,3 +27,9 @@ export class LevelAcessEmailException extends UnauthorizedException {
     super(message || 'Nivel de acesso insuficiente.');
   }
 }
+
+export class LenghtDocumentInvalidException extends ConflictException {
+  constructor(message?: string) {
+    super(message || 'Quantidade de caracteres insuficientes.');
+  }
+}

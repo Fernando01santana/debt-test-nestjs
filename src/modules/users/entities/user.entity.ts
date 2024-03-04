@@ -42,4 +42,8 @@ export class User {
 
   @OneToMany(() => Debt, (debt) => debt.user)
   debts: Debt[];
+
+  constructor(debtData: Partial<User>) {
+    Object.assign(this, debtData);
+  }
 }

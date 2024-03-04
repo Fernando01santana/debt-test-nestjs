@@ -7,7 +7,7 @@ export default class RedisOtherService {
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
   async createKey(data: any): Promise<any> {
-    this.redis.set(`customer}`, JSON.stringify(data));
+    this.redis.set(`customer`, JSON.stringify(data));
   }
 
   async findCustomerByDocument(data: string): Promise<any> {

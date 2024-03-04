@@ -43,8 +43,6 @@ export class ManagerLevelMiddleware implements NestMiddleware {
 
       next();
     } catch (error) {
-      console.log(error);
-
       return res.status(401).json({
         statusCode: 401,
         message: 'Token inválido ou expirado',

@@ -45,15 +45,30 @@
 
 After start the project, create env file with all enviroments variables:
 
+## Enviroments of database
+
 ```bash
 DB_HOST=
 DB_PORT=
 DB_USERNAME=
 DB_PASSWORD=
 DB_DATABASE=
+```
+
+## Enviroments of token authentication
+
+```bash
 EXPIRE_TOKEN=
 SECRET_TOKEN=
-REDIS_URL=
+```
+
+## Enviroments of redis
+
+```bash
+REDIS_HOST=
+REDIS_USER=
+REDIS_PASSWORD=
+REDIS_PORT=
 ```
 
 ## Documentation

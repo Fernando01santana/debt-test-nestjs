@@ -33,14 +33,11 @@ export class AuthService implements IAuthService {
       throw new AuthCredentialsInvalid();
     }
 
-    const payload = {
-      email: data.document,
-      access_level: userExists.type,
-    };
-    const accessToken = this.jwtService.sign(payload);
-
     return {
-      token: accessToken,
+      token: this.jwtService.sign({
+        email: data.document,
+        access_level: userExists.type,
+      }),
       expired_in: this.timeAdder.addTimeToCurrentDate(),
     };
   }

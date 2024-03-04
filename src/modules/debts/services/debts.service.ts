@@ -11,7 +11,7 @@ import { DebtRepository } from '../repositories/debts.repository';
 export class DebtsService implements IDebtsService {
   constructor(
     @InjectRepository(Debt)
-    private readonly debitRepository: DebtRepository,
+    private readonly debtRepository: DebtRepository,
     @InjectRepository(User)
     private readonly userRepository: UserRepository,
     private readonly stringToDate: StringToDate,
@@ -24,19 +24,20 @@ export class DebtsService implements IDebtsService {
     if (!userExists) {
       throw new UserNotFoundInSystemException();
     }
+    //? MODIFICACAO FEITA: ADICAO DE UM CONSTRUTOR NA CLASSE DEBT RESULTANDO ASSIM NA POSSIBILIDADE DE PASSAR OBJETO NA INSTANCIA DA CLASSE
+    const dateInCorrectFormat = this.stringToDate.convertDate(data.data_expire);
+    const createDebt = new Debt({
+      data_expire: dateInCorrectFormat,
+      document: data.document,
+      user: userExists,
+      value: data.value,
+    });
 
-    const dateInCorretFormat = this.stringToDate.convertDate(data.data_expire);
-    const createDebt = new Debt();
-    (createDebt.data_expire = dateInCorretFormat),
-      (createDebt.document = data.document),
-      (createDebt.user = userExists);
-    createDebt.value = data.value;
-
-    await this.debitRepository.save(createDebt);
+    await this.debtRepository.save(createDebt);
     return;
   }
 
   async list(data: string): Promise<Debt[]> {
-    return this.debitRepository.findBy({ document: data });
+    return this.debtRepository.findBy({ document: data });
   }
 }
