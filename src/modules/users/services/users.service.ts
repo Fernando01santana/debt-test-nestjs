@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import RedisOtherService from 'src/config/redis/redis.service';
 import {
+  LenghtDocumentInvalidException,
   LevelAcessEmailException,
   UserAlreadyExistsException,
   UserTypeNotExistsException,
@@ -10,6 +11,7 @@ import {
 import { EncriptPassword } from 'src/shared/utils/encriptPassword';
 import { ItemExistsInEnum } from 'src/shared/utils/searchEnum';
 import { StringToDate } from 'src/shared/utils/stringToDate';
+import { createUserData } from '../constants/user.constante';
 import { CreateAndListUserRequest } from '../dtos/user.dto';
 import { LevelAcess, User } from '../entities/user.entity';
 import { IUserService } from '../interfaces/service.interface';
@@ -26,9 +28,14 @@ export class UserService implements IUserService {
     private readonly redisService: RedisOtherService,
   ) {}
   async create(data: CreateAndListUserRequest): Promise<User> {
+    if (data.document.length < createUserData.lengthDocument) {
+      throw new LenghtDocumentInvalidException();
+    }
+
     const existingUser = await this.usersRepository.findBy({
       document: data.document,
     });
+
     if (existingUser.length > 0) {
       throw new UserAlreadyExistsException();
     }
